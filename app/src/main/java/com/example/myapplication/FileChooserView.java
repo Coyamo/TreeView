@@ -78,7 +78,7 @@ public class FileChooserView extends RecyclerView{
 		File[] fs=rootDir.listFiles();
 		if(fs==null)return;
 		for(File f:fs){
-			root.add(new TreeNode<File>(f,1));
+			root.add(new TreeNode<>(f, 1));
 		}
 		adapter.removeRoot();
 		adapter.addChild(null,root);

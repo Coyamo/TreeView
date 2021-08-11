@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.myapplication">
-    <!-- MANAGE_EXTERNAL_STORAGE -->
-    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
-
     <!-- 修改或删除您共享存储空间中的内容 -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <application
