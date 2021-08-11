@@ -25,7 +25,7 @@ public class TreeViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             boolean preventDefault=false;
             if(onTreeViewClickListener!=null){
                 int pos= (int) v.getTag(R.id.tag_position);
-                preventDefault=onTreeViewClickListener.onClick(v,node,pos);
+                preventDefault=onTreeViewClickListener.onClick(vh,node,pos);
             }
             if(!preventDefault){
                 if(node.isExpand())hideChild(node);
@@ -93,12 +93,12 @@ public class TreeViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             }
         }
 
-        //更新node的node
+        //更新child的node
         for(TreeNode<?> nd:child){
             if(nd.isExpand())expandChild(nd);
         }
     }
-
+/*
     public void removeChild(TreeNode<?> parentNode) {
         if (!parentNode.hasChild() || parentNode.child.size() == 0) return;
         int count= removeNodeChild(parentNode,true);
@@ -107,7 +107,12 @@ public class TreeViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         parentNode.setHasChild(false);
         parentNode.child.clear();
     }
-
+*/
+    public void removeRoot(){
+        int count =data.size();
+        data.clear();
+        notifyItemRangeRemoved(0,count);
+    }
     public void hideChild(TreeNode<?> parentNode) {
         if (!parentNode.hasChild() || !parentNode.isExpand()) return;
         int index=data.indexOf(parentNode) + 1;
@@ -164,6 +169,6 @@ public class TreeViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     public interface OnTreeViewClickListener{
-        boolean onClick(View view,TreeNode<?> node,int index);
+        boolean onClick(RecyclerView.ViewHolder vh,TreeNode<?> node,int index);
     }
 }

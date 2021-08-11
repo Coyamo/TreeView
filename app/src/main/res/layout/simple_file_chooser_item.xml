@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="horizontal"
+	android:layout_width="match_parent"
+	
+	android:id="@+id/simple_file_chooser_item"
+	android:gravity="center_vertical"
+	android:layout_height="wrap_content">
+	<ImageView
+		android:id="@+id/simple_file_chooser_item_state"
+		android:src="@android:drawable/ic_delete"
+		android:layout_width="24dp"
+		android:layout_height="24dp"/>
+	<ImageView
+		android:id="@+id/simple_file_chooser_item_icon"
+		android:src="@android:drawable/ic_delete"
+		android:layout_width="24dp"
+		android:layout_height="24dp"/>
+	<TextView
+		android:id="@+id/simple_file_chooser_item_text"
+		android:layout_marginStart="5dp"
+		android:maxLines="1"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"/>
+
+</LinearLayout>
+
