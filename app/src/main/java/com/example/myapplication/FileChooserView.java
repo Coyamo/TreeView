@@ -86,7 +86,6 @@ public class FileChooserView extends RecyclerView{
 		for(File f:fs){
 			root.add(new TreeNode(f, 1));
 		}
-		adapter.removeRoot();
 		adapter.setRoot(root);
 		if(onFileItemClickListener!=null){
 			onFileItemClickListener.onRootPathChanged(rootDir);

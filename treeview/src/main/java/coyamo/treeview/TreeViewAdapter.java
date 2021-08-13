@@ -135,7 +135,20 @@ public class TreeViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     //////////////////////////////
-    public void setRoot(List<TreeNode> child) {
+    public void addRoot(int pos,List<TreeNode> child) {
+        for (TreeNode tn : child) {
+            tn.setDepth(0);
+        }
+        int index = data.size();
+        data.addAll(pos,child);
+        notifyItemRangeInserted(index, child.size());
+
+        //更新child的node
+        for (TreeNode nd : child) {
+            if (nd.isExpand()) expandChild(nd);
+        }
+    }
+    public void addRoot(List<TreeNode> child) {
         for (TreeNode tn : child) {
             tn.setDepth(0);
         }
@@ -147,6 +160,10 @@ public class TreeViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         for (TreeNode nd : child) {
             if (nd.isExpand()) expandChild(nd);
         }
+    }
+    public void setRoot(List<TreeNode> child) {
+        removeRoot();
+        addRoot(child);
     }
 
     @Deprecated
