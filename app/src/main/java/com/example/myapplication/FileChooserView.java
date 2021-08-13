@@ -1,6 +1,5 @@
 package com.example.myapplication;
 import android.content.Context;
-import android.os.Environment;
 import android.util.AttributeSet;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -35,7 +34,7 @@ public class FileChooserView extends RecyclerView{
 		adapter.setOnTreeViewClickListener(new TreeViewAdapter.OnTreeViewClickListener(){
 
 				@Override
-				public boolean onClick(RecyclerView.ViewHolder vh, TreeNode<?> node, int index) {
+				public boolean onClick(RecyclerView.ViewHolder vh, TreeNode node, int index) {
 					if(node.getType()==1){
 						FileBinder.VH holder=(FileBinder.VH) vh;
 						File file=(File) node.getData(); 
@@ -54,19 +53,26 @@ public class FileChooserView extends RecyclerView{
 								holder.icon.setImageResource(R.drawable.ic_folder_open);
 							}
 						if(node.isExpand())return false;
-						node.getChild().clear();
+						node.clearChild();
 						if(file.isDirectory()){
-							List<TreeNode<?>> list=new ArrayList<>();
+							List<TreeNode> list=new ArrayList<>();
 							File[] fl=file.listFiles();
 							if(fl!=null)
 								for(File f:fl){
-									list.add(new TreeNode<>(f, 1));
+									list.add(new TreeNode(f, 1));
 								}
-							adapter.addChild(node,list);
+								node.addChild(list);
 						}
 					}
-
 					return false;
+
+					/*
+					//返回false 表示不阻止默认操作（自动展开关闭node）
+					//如果返回true 则需要手动提示更新 如下
+					node.setExpand(true);
+					adapter.notifyNode(node);
+					return true;
+					*/
 				}
 			});
 		
@@ -74,14 +80,14 @@ public class FileChooserView extends RecyclerView{
 
 	public void setRootDir(File rootDir) {
 		this.rootDir = rootDir;
-		List<TreeNode<?>> root=new ArrayList<>();
+		List<TreeNode> root=new ArrayList<>();
 		File[] fs=rootDir.listFiles();
 		if(fs==null)return;
 		for(File f:fs){
-			root.add(new TreeNode<>(f, 1));
+			root.add(new TreeNode(f, 1));
 		}
 		adapter.removeRoot();
-		adapter.addChild(null,root);
+		adapter.setRoot(root);
 		if(onFileItemClickListener!=null){
 			onFileItemClickListener.onRootPathChanged(rootDir);
 		}

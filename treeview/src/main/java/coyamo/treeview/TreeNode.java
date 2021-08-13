@@ -3,17 +3,25 @@ package coyamo.treeview;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TreeNode<T> {
-    List<TreeNode<?>> child = new ArrayList<>();
-    private T data;
+public class TreeNode {
+    List<TreeNode> children = new ArrayList<>();
+    private Object data;
     private int depth;
-    private Object tag;
     private int type;
-    private boolean expand, hasChild;
+    private boolean expand, hasChild = true;
+    private TreeNode parent;
 
-    public TreeNode(T data, int type) {
+    public TreeNode(Object data, int type) {
         this.data = data;
         this.type = type;
+    }
+
+    public TreeNode getParent() {
+        return parent;
+    }
+
+    public void setParent(TreeNode parent) {
+        this.parent = parent;
     }
 
     public void setHasChild(boolean hasChild) {
@@ -24,12 +32,39 @@ public class TreeNode<T> {
         return hasChild;
     }
 
-    public List<TreeNode<?>> getChild() {
-        return child;
+    private List<TreeNode> getChildren() {
+        return children;
     }
 
-    public void setChild(List<TreeNode<?>> child) {
-        this.child = child;
+    public void addChild(List<TreeNode> children) {
+        for (TreeNode tn : children) {
+            tn.parent = this;
+            tn.depth = depth + 1;
+        }
+        this.children.addAll(children);
+    }
+
+    public void clearChild() {
+        children.clear();
+    }
+
+    /**
+     * 在父节点中的位置，最顶层node需要在adaper获取
+     *
+     * @param node node
+     * @return 位置 没有则为-1
+     */
+    public int getIndex(TreeNode node) {
+        if (parent == null) return -1;
+        return parent.children.indexOf(node);
+    }
+
+    public TreeNode getChildAt(int index) {
+        return children.get(index);
+    }
+
+    public int getChildCount() {
+        return children.size();
     }
 
     public boolean isExpand() {
@@ -48,14 +83,6 @@ public class TreeNode<T> {
         this.type = type;
     }
 
-    public Object getTag() {
-        return tag;
-    }
-
-    public void setTag(Object tag) {
-        this.tag = tag;
-    }
-
     public int getDepth() {
         return depth;
     }
@@ -64,11 +91,29 @@ public class TreeNode<T> {
         this.depth = depth;
     }
 
-    public T getData() {
+    public Object getData() {
         return data;
     }
 
-    public void setData(T data) {
+    public void setData(Object data) {
         this.data = data;
+    }
+
+    public void insert(TreeNode child, int index) {
+        child.parent = this;
+        child.setDepth(depth + 1);
+        children.add(index, child);
+    }
+
+    public void remove(int index) {
+        children.remove(children.get(index));
+    }
+
+    public void remove(TreeNode node) {
+        children.remove(node);
+    }
+
+    public void removeFromParent() {
+        if (parent != null) parent.remove(this);
     }
 }

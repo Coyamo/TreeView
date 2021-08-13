@@ -18,7 +18,7 @@ public class FileBinder implements TreeBinder<FileBinder.VH> {
 	}
 
 	@Override
-	public void onBindViewHolder(FileBinder.VH holder, TreeNode<?> node) {
+	public void onBindViewHolder(FileBinder.VH holder, TreeNode node) {
 		File file=(File) node.getData();
 		if(file.isDirectory()){
 			holder.state.setVisibility(View.VISIBLE);
